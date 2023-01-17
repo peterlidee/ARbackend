@@ -1,0 +1,16 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "workbench.colorCustomizations": {
+      "titleBar.activeForeground": "#fff",
+      "titleBar.inactiveForeground": "#ffffffcc",
+      "titleBar.activeBackground": "#c4174e",
+      "titleBar.inactiveBackground": "#c4174ecc"
+    },
+    "eslint.alwaysShowStatus": true
+  }
+}
