@@ -67,5 +67,30 @@ export default async function checkout(
   });
   console.log('charge', charge);
   // 4. convert cartItems to OrderItems
+  const orderItems = cartItems.map(cartItem => {
+    const orderItem = {
+      name: cartItem.product.name,
+      description: cartItem.product.description,
+      price: cartItem.product.price,
+      quantity: cartItem.quantity,
+      photo: { connect: { id: cartItem.product.photo.id } },
+    };
+    return orderItem;
+  })
   // 5. create the Order and return it
+  const order = await context.lists.Order.createOne({
+    data: {
+      total: charge.amount,
+      charge: charge.id,
+      // we don't create them seperate but use keystone to do both for us
+      items: { create: orderItems },
+      user: { connect: { id: userId } },
+    },
+  })
+  // 6. clean up any old cartItems
+  const cartItemIds = user.cart.map(cartItem => cartItem.id)
+  await context.lists.CartItem.deleteMany({
+    ids: cartItemIds,
+  })
+  return order;
 }
